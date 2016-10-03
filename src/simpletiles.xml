@@ -1,0 +1,15 @@
+
+<?xml version="1.0"?>
+
+<board x="8" y="8">
+	<tile id="1" x="2" y="2">bw wb</tile>
+	<tile id="2" x="3" y="3">xxb xxw bwb</tile>
+	<tile id="3" x="5" y="1">wbwbw</tile>
+	<tile id="4" x="5" y="3">bxxwb wxxbw bwbwb</tile>
+	<tile id="5" x="2" y="2">wb bw</tile>
+	<tile id="6" x="1" y="4">w b w b w</tile>
+	<tile id="7" x="2" y="5">bx wx bw wb bw</tile>
+	<tile id="8" x="2" y="5">wx bw xb xw xb</tile>
+	<tile id="9" x="2" y="4">bw wx bx wx</tile>
+	<tile id="0" x="3" y="3">xbw bwb wbw bwb</tile>
+</board>

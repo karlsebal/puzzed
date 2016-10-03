@@ -1,0 +1,83 @@
+board 8x8
+
+tile1 2x3 5
+
+b
+wb
+bw
+
+tile2 1x5 5
+
+b
+w
+b
+w
+b
+
+tile3 3x3 5
+
+wbw
+b
+w
+
+tile4 2x4 5
+
+bw
+w
+b
+w
+
+tile5 2x4 5
+
+w
+bw
+w
+b
+
+tile6 2x3 5
+
+wb
+b
+wb
+
+tile7 2x4 5
+
+b
+w
+bw
+ b
+
+tile8 3x3 5
+
+bwb
+ b
+ w
+
+tile9 3x3 5
+
+bw
+ bw
+  b
+
+tile10 3x3 5
+
+ w
+wbw
+ w
+
+tile11 3x3 5
+
+ bw
+ w
+wb
+
+tile12 3x3 5
+
+ b
+ wb
+wb
+
+tile13 2x2 4
+
+wb
+bw

@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+
+<!--tiles.xml
+
+    all characters in the content are ignored except
+
+   	b for black
+        w for white
+	x for empty
+
+    which means you can group for improved human readability
+
+    there are 2 attributes, where
+    	
+    	id is the character which is printed for the tile
+	x,y are the dimensions of tile or board
+
+-->
+
+
+<board x="8" y="8">
+	<tile id="j" x="3" y="3">xwx wbw xwx</tile>	<!-- 5 10 -->
+	<tile id="b" x="1" y="5">b w b w b</tile>	<!-- 5 2 -->
+	<tile id="l" x="2" y="2">wb bw</tile>		<!-- 4 13 -->
+	<tile id="i" x="3" y="3">bwx xbw xxb</tile>	<!-- 5 9 -->
+	<tile id="h" x="3" y="3">bwb xbx xwx</tile>	<!-- 5 8 -->
+	<tile id="k" x="3" y="3">xbx xwb wbx</tile>	<!-- 5 12 -->
+	<tile id="a" x="2" y="3">bx wb bw</tile>	<!-- 5 1-->
+	<tile id="c" x="3" y="3">wbw bxx wxx</tile>	<!-- 5 3 -->
+	<tile id="d" x="2" y="4">bw wx bx wx</tile>	<!-- 5 4 -->
+	<tile id="e" x="2" y="4">wx bw wx bx</tile>	<!-- 5 5 -->
+	<tile id="f" x="2" y="3">wb bx wb</tile>	<!-- 5 6 -->
+	<tile id="g" x="2" y="4">bx wx bw xb</tile>	<!-- 5 7 -->
+	<tile id="k" x="3" y="3">xbw xwx wbx</tile>	<!-- 5 11-->
+</board>
