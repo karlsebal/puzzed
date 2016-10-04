@@ -1,5 +1,5 @@
 #!/usr/bin/python3 -i
-# vi: ai expandtab ts=4 sw=4
+# vi: ai expandtab ts=4 sw=4 sts=4
 
 from permutation import getAllPermutations as getAll
 from permutation import printAllPermutations as printAll
@@ -42,6 +42,12 @@ board = [ ['x' for i in range(8)] for j in range(8)]
 class OccupiedException(Exception):
     pass
 
+class XOutRangeException(Exception):
+    pass
+
+class YOutRangeException(Exception):
+    pass
+
 
 def out():
     """gives a nice output of the board"""
@@ -69,12 +75,19 @@ def remove(tile, topLeftX, topLeftY):
 
     
 
-def put(tile, topLeftX: int, topLeftY: int, remove=False) -> bool:
-    """puts a tile to (x,y). returns False if occupied"""
+def put(tile, topLeftX: int, topLeftY: int, remove=False) -> None:
+    """puts a tile to (x,y). Raise Exception if occupied or outbound"""
 
     # get dimensions
     xDim = len(tile[0])
     yDim = len(tile)
+
+    # check if out of bound
+    if xDim + topLeftX == len(board[0]):
+        raise XOutRangeException
+
+    if yDim + topLeftY == len(board):
+        raise YOutRangeException
 
     # get range
     rangeX = range(topLeftX, topLeftX + xDim)
@@ -96,7 +109,7 @@ def put(tile, topLeftX: int, topLeftY: int, remove=False) -> bool:
                     # ... the square on the tile must be empty.
                     if tile[countY][countX] != 'x':
                         # its not! 
-                        return False
+                        raise OccupiedException
                 countY += 1
             countY = 0
             countX += 1
@@ -117,6 +130,3 @@ def put(tile, topLeftX: int, topLeftY: int, remove=False) -> bool:
 
         countY = 0
         countX += 1
-
-    
-    return True

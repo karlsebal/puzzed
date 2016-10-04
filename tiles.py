@@ -1,4 +1,4 @@
-# vi: ai expandtab ts=4 sw=4
+# vi: ai expandtab ts=4 sw=4 sts=4
 # board 8x8
 
 b = 'b'
