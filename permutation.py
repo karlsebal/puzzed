@@ -1,6 +1,6 @@
 #!/usr/bin/python3 -i
-# vi: ai expandtab ts=4 sw=4
-""" provides permutation tree and basic operations"""
+# vi: ai expandtab ts=4 sw=4 sts=4
+"""provides permutation tree and basic tile operations"""
 
 from tiles import tiles
 
@@ -44,26 +44,43 @@ def flip(tile):
     return [ [square for square in reversed(row)] for row in tile]
 
 
-def permutate(tile):
-    """return all permutations of tile including tile"""
+def permutate(tile) -> list:
+    """return permutations of tile"""
 
-    permutation = [tile,]
+    permutation = []
+
+    # function for deduped add
+    def add(tile):
+        """add the tile if not already in"""
+        if tile not in permutation:
+            permutation.append(rotation)
+
+
+    # first one is the tile itself.
+    permutation.append(tile)
 
     # rotations 1 to 3 are the actual rotations
-    for i in range(3):
-         permutation.append(rotate(permutation[i]))
+    # always the 'previous' rotation is rotated..
+    rotation = tile
 
-    # and flipper not to forget
-    permutation.append(flip(tile))
+    for i in range(3):
+        rotation = rotate(rotation)
+        add(rotation)
+
+    # flipper. put it in rotation though
+    rotation = flip(tile)
+    add(rotation)
 
     # rotations for flipper
     for i in range(4,7):
-        permutation.append(rotate(permutation[i]))
+        rotation = rotate(rotation)
+        add(rotation)
+
 
     return permutation
      
 
-def equals(tile1, tile2):
+def equals(tile1, tile2) -> bool:
     """compare tiles. return True if equal False otherwise"""
 
     # compare y dim
@@ -83,47 +100,19 @@ def equals(tile1, tile2):
     return True
 
 
-def deduplicate(permutation):
-    """deduplicate a permutation"""
-
-    deduped = []
-
-    # check tiles in the permutation
-    for tile in permutation:
-        duplicate = False
-
-        # look if its already there
-        for dtile in deduped:
-            if equals(dtile, tile):
-                duplicate = True
-
-        if not duplicate:
-            deduped.append(tile)
-
-    return deduped
-
-
-def deduplicated_permutation(tile):
-    """return a list of deduplicated permutation including tile"""
-    return deduplicate(permutate(tile))
-
-
-def getAllPermutations():
+def getAllPermutations() -> list:
     """returns a list with all permutation. one permutation of a tile per line."""
     
-    all_permutations = []
+    permutations = []
 
-    for ptile in tiles:
-        tile_permutation = []
+    for tile in tiles:
+        permutations.append(permutate(tile))
 
-        for dtile in deduplicated_permutation(ptile):
-            tile_permutation.append(dtile)
+    return permutations
+        
 
-        all_permutations.append(tile_permutation)
 
-    return all_permutations
-
-def printAllPermutations():
+def printAllPermutations() -> None:
     """give a nice output"""
     
     count = 0
