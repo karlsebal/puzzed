@@ -1,5 +1,12 @@
 #!/usr/bin/python3 -i
 # vi: ai expandtab ts=4 sw=4 sts=4
+"""
+This is the board. It holds all tiles, positions and logic for put/remove.
+
+The logic implemented here is rudimental: It does only out-ouf-board
+and collision testing.
+"""
+
 
 from permutation import getAllPermutations as getAll
 from permutation import printAllPermutations as printAll
@@ -49,7 +56,7 @@ class YOutRangeException(Exception):
     pass
 
 
-def out():
+def out() -> None:
     """gives a nice output of the board"""
 
     print()
@@ -60,7 +67,7 @@ def out():
     print()
 
 
-def clear():
+def clear() -> None:
     """clear board"""
 
     for x in range(len(board[0])):
@@ -82,6 +89,7 @@ def put(tile, topLeftX: int, topLeftY: int, remove=False) -> None:
     xDim = len(tile[0])
     yDim = len(tile)
 
+    # TODO better outbound checking.
     # check if out of bound
     if xDim + topLeftX == len(board[0]):
         raise XOutRangeException
@@ -94,7 +102,7 @@ def put(tile, topLeftX: int, topLeftY: int, remove=False) -> None:
     rangeY = range(topLeftY, topLeftY + yDim)
 
 
-    # we need counters to now
+    # we need counters to know
     # which square to compare
     countX = 0
     countY = 0
