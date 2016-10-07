@@ -3,56 +3,23 @@
 """
 This is the board. It holds all tiles, positions and logic for put/remove.
 
-The logic implemented here is rudimental: It does only out-ouf-board
+The logic implemented here is rudimental: It only performs out-ouf-board
 and collision testing.
 """
-
-
-from permutation import getAllPermutations as getAll
-from permutation import printAllPermutations as printAll
-
-## convenience
-
-from permutation import tiles 
-from permutation import out as tout
-
-t = tiles[10]
-
-def test(tile, xoffset=0, yoffset=0, remove=False):
-    putlist=[]
-    for x in range(7):
-        for y in range(7):
-            if not y + len(t) > 8:
-                if not x + len(t[0]) > 8:
-                    if put(tile,x+xoffset,y+yoffset,remove):
-                        putlist.append((x,y))
-                        out()
-
-    return putlist
-
-def putremove(tile):
-    l = test(tile)
-    for i in l:
-        remove(tile, i[0], i[1])
-        out()
-
-def putremoveall(t):
-    for t in tiles:
-        putremove(t)
-
-## /convenience
-
 
 board = [ ['x' for i in range(8)] for j in range(8)]
 
 
 class OccupiedException(Exception):
+    """raised when tile cannot be put due to collision"""
     pass
 
 class XOutRangeException(Exception):
+    """raised when tile cannot be put due to x-out-of-bound"""
     pass
 
 class YOutRangeException(Exception):
+    """raised when tile cannot be put due to y-out-of-bound"""
     pass
 
 
@@ -83,7 +50,7 @@ def remove(tile, topLeftX, topLeftY):
     
 
 def put(tile, topLeftX: int, topLeftY: int, remove=False) -> None:
-    """puts a tile to (x,y). Raise Exception if occupied or outbound"""
+    """puts a tile to (x,y) or removes it. Raise Exception if occupied or outbound."""
 
     # get dimensions
     xDim = len(tile[0])
@@ -91,10 +58,10 @@ def put(tile, topLeftX: int, topLeftY: int, remove=False) -> None:
 
     # TODO better outbound checking.
     # check if out of bound
-    if xDim + topLeftX == len(board[0]):
+    if xDim + topLeftX > len(board[0]):
         raise XOutRangeException
 
-    if yDim + topLeftY == len(board):
+    if yDim + topLeftY > len(board):
         raise YOutRangeException
 
     # get range
