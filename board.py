@@ -18,15 +18,43 @@ from permutation import out as tout
 
 t = tiles[10]
 
+def testpr(tile,timer=0.7):
+    import time
+    try:
+        for y in range(8):
+            try:
+                for x in range(8):
+                    try:
+                        put(tile,x,y)
+                        out()
+                        put(tile,x,y,True)
+                        time.sleep(timer)
+                    except OccupiedException:   
+                        pass
+
+            except XOutRangeException:
+                pass
+    except YOutRangeException:
+        pass
+
+
 def test(tile, xoffset=0, yoffset=0, remove=False):
     putlist=[]
-    for x in range(7):
-        for y in range(7):
-            if not y + len(t) > 8:
-                if not x + len(t[0]) > 8:
-                    if put(tile,x+xoffset,y+yoffset,remove):
+    try:
+        for y in range(8):
+            try:
+                for x in range(8):
+                    try:
+                        put(tile,x+xoffset,y+yoffset,remove)
                         putlist.append((x,y))
                         out()
+                    except OccupiedException:   
+                        pass
+
+            except XOutRangeException:
+                pass
+    except YOutRangeException:
+        pass
 
     return putlist
 
@@ -91,10 +119,10 @@ def put(tile, topLeftX: int, topLeftY: int, remove=False) -> None:
 
     # TODO better outbound checking.
     # check if out of bound
-    if xDim + topLeftX == len(board[0]):
+    if xDim + topLeftX > len(board[0]):
         raise XOutRangeException
 
-    if yDim + topLeftY == len(board):
+    if yDim + topLeftY > len(board):
         raise YOutRangeException
 
     # get range
