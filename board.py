@@ -1,25 +1,16 @@
 #!/usr/bin/python3 -i
 # vi: ai expandtab ts=4 sw=4 sts=4
 """
-This is the board. It holds all tiles, positions and logic for put/remove.
-
-The logic implemented here is rudimental: It only performs out-ouf-board
-and collision testing.
+Board class and exceptions
 """
 
-board = [ ['x' for i in range(8)] for j in range(8)]
-
-
 class OccupiedException(Exception):
-    """raised when tile cannot be put due to collision"""
     pass
 
 class XOutRangeException(Exception):
-    """raised when tile cannot be put due to x-out-of-bound"""
     pass
 
 class YOutRangeException(Exception):
-    """raised when tile cannot be put due to y-out-of-bound"""
     pass
 
 class Board:
@@ -56,18 +47,17 @@ class Board:
     def remove_tile(self, tile, topLeftX, topLeftY) -> None:
         """remove tile from (x,y). No checking."""
 
-def put(tile, topLeftX: int, topLeftY: int, remove=False) -> None:
-    """puts a tile to (x,y) or removes it. Raise Exception if occupied or outbound."""
+        self.put_tile(tile, topLeftX, topLeftY, True)
 
         
 
-    # TODO better outbound checking.
-    # check if out of bound
-    if xDim + topLeftX > len(board[0]):
-        raise XOutRangeException
+    def put_tile(self, tile, topLeftX: int, topLeftY: int, remove=False) -> None:
+        """puts a tile to (x,y). Put empty squares if removal requested. Raise Exception if occupied or outbound"""
+        # TODO validator
 
-    if yDim + topLeftY > len(board):
-        raise YOutRangeException
+        # get dimensions
+        xDim = len(tile[0])
+        yDim = len(tile)
 
         # TODO better outbound checking.
         # TODO merge with occupied check?
