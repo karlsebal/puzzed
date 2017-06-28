@@ -7,16 +7,17 @@ from data import tiles
 from tile import permutate
 from tile import to_string
 
-import board as board_module
+from board import Board
 from board import OccupiedException, YOutRangeException, XOutRangeException
 
 from board_controller import Board_Controller
+from board_controller import NoMoveLeft
 
 import logging
 
 log = logging.getLogger(__name__)
 
-ddebug = False
+ddebug = True
 log_level = logging.INFO
 
 logging.basicConfig(level=log_level,
@@ -26,8 +27,7 @@ logging.basicConfig(level=log_level,
 
 
 # create a new board and controller
-board = board_module.Board(8, 8)
-controller = Board_Controller(board)
+controller = Board_Controller(Board(8,8))
 
 # get all permutations
 permutations = []
@@ -39,31 +39,21 @@ for tile in tiles:
 
 import time
 
-board.put_tile(tiles[5], 2, 2)
+controller.board.put_tile(tiles[5], 2, 2)
+print(controller.board)
+
 
 for permutation in permutations:
 
     for tile in permutation:
         try:
+            idx = controller.put(tile)
+            print(controller.board)
 
-            for j in range(board.y_dim):
-                try:
-                    for i in range(board.x_dim):
-                        try:
-                            log.debug('put tile to %d,%d' % (i,j))
-                            board.put_tile(tile, i, j)
-                            print(board)
-                            time.sleep(.2)
-                            log.debug('remove tile from %d,%d' % (i,j))
-                            board.remove_tile(tile, i, j)
-                        except OccupiedException:
-                            log.debug('%d,%d occupied' % (i,j))
+            while True:
+                coordinates = controller.move(idx)
+                print(controller.board)
+                time.sleep(.025)
 
-                except XOutRangeException:
-                        log.debug('%d,%d xout' % (i,j))
-
-        except YOutRangeException:
-                    log.debug('%d,%d yout' %(i,j))
-                    
-
-
+        except NoMoveLeft as e:
+            pass
