@@ -1,8 +1,8 @@
 #!/usr/bin/python3 -i
 # vi: ai expandtab sts=4 ts=4 sw=4
 
-from board import Board
-from board import OccupiedException, XOutRangeException, YOutRangeException
+from board import ChessBoard
+from board import OccupiedException, XOutRangeException, YOutRangeException, ChessBoardViolation
 
 import logging
 
@@ -11,12 +11,12 @@ log = logging.getLogger(__name__)
 class NoMoveLeft(Exception):
     pass
 
-class BoardController:
+class ChessBoardController:
     """
     This is the board controller. She is aware of tiles and positions.
     """
 
-    def __init__(self, board: Board):
+    def __init__(self, board: ChessBoard):
         self.board = board
         self.index = []
 
@@ -42,6 +42,8 @@ class BoardController:
                             return len(self.index) - 1
                         except OccupiedException:
                             log.debug('%d, %d occupied' % (i,j))
+                        except ChessBoardViolation:
+                            log.debug('%r@%d,%d chessboard violated' % (tile, i, j))
 
                 except XOutRangeException:
                         log.debug('%d, %d xout' % (i,j))
@@ -87,6 +89,8 @@ class BoardController:
                             return (i,j)
                         except OccupiedException:
                             log.debug('%d,%d occupied' % (i,j))
+                        except ChessBoardViolation:
+                            log.debug('%d@%d%d ChessBoard violated' % (tile_index, i,j))
 
                 except XOutRangeException:
                     log.debug('%d,%d xout' % (i,j))

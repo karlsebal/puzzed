@@ -15,8 +15,8 @@ from tile import to_string
 from board import ChessBoard
 from board import OccupiedException, YOutRangeException, XOutRangeException
 
-from board_controller import Board_Controller
-from board_controller import NoMoveLeft
+from chess_board_controller import ChessBoardController
+from chess_board_controller import NoMoveLeft
 
 import logging
 
@@ -32,7 +32,7 @@ logging.basicConfig(level=log_level,
 
 
 # create a new board and controller
-controller = Board_Controller(ChessBoard())
+controller = ChessBoardController(ChessBoard())
 
 # get all permutations
 # this will be the search matrix
