@@ -13,6 +13,9 @@ class XOutRangeException(Exception):
 class YOutRangeException(Exception):
     pass
 
+class ChessBoardViolated(Exception):
+    pass
+
 class Board:
     """
     This is the board. It holds all squares but is unaware of the tiles.

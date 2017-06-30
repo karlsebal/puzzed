@@ -23,7 +23,7 @@ class Board_Controller:
     def put(self, tile):
         """
         Add tile and insert into first possible position.
-        Return index and coordinates if successfull, 
+        Return index if successfull, 
         Raise Exception otherwise
         No artifacts.
         """
@@ -31,7 +31,8 @@ class Board_Controller:
         log.debug('put %r' % tile)
 
         try:
-            for j in range(self.board.y_dim):
+            # one more to provoke exception
+            for j in range(self.board.y_dim + 1):
                 try:
                     for i in range(self.board.x_dim):
                         try:
@@ -40,7 +41,7 @@ class Board_Controller:
                             self.index.append([i, j, tile])
                             return len(self.index) - 1
                         except OccupiedException:
-                            log.debug('%d, %d xout' % (i,j))
+                            log.debug('%d, %d occupied' % (i,j))
 
                 except XOutRangeException:
                         log.debug('%d, %d xout' % (i,j))
