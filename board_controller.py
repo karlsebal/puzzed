@@ -8,8 +8,10 @@ import logging
 
 log = logging.getLogger(__name__)
 
+
 class NoMoveLeft(Exception):
     pass
+
 
 class BoardController:
     """
@@ -18,7 +20,28 @@ class BoardController:
 
     def __init__(self, board: Board):
         self.board = board
-        self.index = []
+        self.index = {}
+
+
+    def add_to_index(self, i: int, j: int, tile) -> int:
+        ''' add to matrix. return index.  '''
+        idx = -1 
+        while True:
+            idx += 1
+            if not idx in self.index:
+                self.index[idx] = [i, j, tile]
+                return idx
+            
+
+    def remove_from_index(self, index: int):
+        '''remove from index'''
+        self.index.pop(index)
+
+    def update_index(self, index: int, i: int, j: int) -> None:
+        '''update coordinates'''
+        self.index[index][0] = i
+        self.index[index][1] = j
+
 
     def put(self, tile):
         """
@@ -38,18 +61,20 @@ class BoardController:
                         try:
                             log.debug('try put at %d,%d' % (i,j))
                             self.board.put_tile(tile, i, j)
-                            self.index.append([i, j, tile])
-                            return len(self.index) - 1
+                            return self.add_to_index(i, j, tile)
+
                         except OccupiedException:
                             log.debug('%d, %d occupied' % (i,j))
 
                 except XOutRangeException:
                         log.debug('%d, %d xout' % (i,j))
+
         except YOutRangeException:
             log.debug('%d, %d yout' % (i, j))
             raise NoMoveLeft
 
         log.error('FATAL')
+        raise Exception('B U G')
 
 
 
@@ -82,8 +107,7 @@ class BoardController:
                         try:
                             log.debug('try putting to %d,%d' % (i,j))
                             self.board.put_tile(current_t, i, j)
-                            self.index[tile_index][0] = i
-                            self.index[tile_index][1] = j
+                            self.update_index(tile_index, i, j)
                             return (i,j)
                         except OccupiedException:
                             log.debug('%d,%d occupied' % (i,j))
@@ -96,17 +120,20 @@ class BoardController:
             log.debug('%d,%d yout' % (i,j))
 
 
+
+        self.remove_from_index(tile_index)
+
         raise NoMoveLeft
 
 
-    def get_solution():
+    def get_solution(self):
         """
         return the solution in its current state
         """
 
         return self.index
 
-    def get_pretty_solution():
+    def get_pretty_solution(self):
         """
         return pretty solution string
         """

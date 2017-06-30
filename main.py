@@ -72,7 +72,9 @@ def try_all_moves(index: int=None) :
     # …and the end of depth is reached,
     # we have a solution
     if index and index == -1:
+        
         solutions.append(controller.get_solution())
+        solutions.append(str(controller.board))
         print('SOLUTION')
         print(solutions[-1])
 
