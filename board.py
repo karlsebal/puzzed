@@ -13,8 +13,9 @@ class XOutRangeException(Exception):
 class YOutRangeException(Exception):
     pass
 
-class ChessBoardViolated(Exception):
+class ChessBoardViolation(Exception):
     pass
+
 
 class Board:
     """
@@ -56,7 +57,6 @@ class Board:
 
     def put_tile(self, tile, topLeftX: int, topLeftY: int, remove=False) -> None:
         """puts a tile to (x,y). Put empty squares if removal requested. Raise Exception if occupied or outbound"""
-        # TODO validator
 
         # get dimensions
         xDim = len(tile[0])
@@ -112,3 +112,39 @@ class Board:
 
             countY = 0
             countX += 1
+
+
+class ChessBoard(Board):
+    """
+    some additional checking. important for chess puzzle to
+    eliminate pointless branches
+    """
+
+    def __init__(self):
+        super().__init__(8, 8)
+
+    def put_tile(self, tile, topLeftX: int, topLeftY: int, remove=False) -> None:
+
+        # validator. top left of board must be white.
+        x_offset = (topLeftY + topLeftX) % 2
+        row_offset = -1
+
+        for row in tile:
+            row_offset += 1
+            if 'w' in row:
+                w_offset = row.index('w') % 2
+                offset = w_offset + row_offset + x_offset
+                
+            elif 'b' in row:
+                b_offset = row.index('b') % 2
+                offset = b_offset + row_offset + x_offset + 1
+
+            if offset % 2 != 0:
+                raise ChessBoardViolation
+            else:
+                # valid. continue.
+                break
+
+
+
+        super().put_tile(tile, topLeftX, topLeftY, remove)
