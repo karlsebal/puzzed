@@ -1,4 +1,4 @@
-#!/usr/bin/python3 -i
+#!/usr/bin/python3 -iu
 # vi: ai expandtab ts=4 sw=4 sts=4
 """
 search controller. 
@@ -25,7 +25,7 @@ log = logging.getLogger(__name__)
 ddebug = False
 log_level = logging.INFO
 
-recursion_info_level = 9
+recursion_info_level = 7
 
 logging.basicConfig(level=log_level,
                     format='%(asctime)s – ' +
@@ -68,10 +68,14 @@ def try_all_moves(index: int=None) :
 
     log.debug('recursion level %r' % index)
 
+    # init
+    if index == None:
+        try_all_moves(len(permutations) - 1)
+
     # if index is defined already…
     # …and the end of depth is reached,
     # we have a solution
-    if index and index == -1:
+    elif index == -1:
         
         solutions.append(controller.get_solution())
         solutions.append(str(controller.board))
@@ -79,7 +83,7 @@ def try_all_moves(index: int=None) :
         print(solutions[-1])
 
     # …and end of depth is not reached
-    elif index and index > -1:
+    else:
         # for every tile in the specific permutation
         for tile in permutations[index]:
             permutation_count += 1
@@ -123,9 +127,6 @@ def try_all_moves(index: int=None) :
             except NoMoveLeft:
                 log.debug('no move left for %r' % tile)
 
-    # init
-    elif not index:
-        try_all_moves(len(permutations) - 1)
 
 if __name__ == "__main__":
     try_all_moves()
