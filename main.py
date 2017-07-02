@@ -24,7 +24,8 @@ log = logging.getLogger(__name__)
 
 ddebug = False
 log_level = logging.INFO
-recursion_info_level = 8
+
+recursion_info_level = 9
 
 logging.basicConfig(level=log_level,
                     format='%(asctime)s – ' +
@@ -95,7 +96,7 @@ def try_all_moves(index: int=None) :
 
                 move_count += 1
                 if not index < recursion_info_level:
-                    log.info('move %d/64@%d(%d/%d)' % (move_count, index, permutation_count, permutations_count))
+                    log.info('move %d@%d(%d/%d)' % (move_count, index, permutation_count, permutations_count))
                 log.debug('\n' + str(controller.board))
                 # TODO trigger event time.sleep(DELAY)
 
@@ -111,7 +112,7 @@ def try_all_moves(index: int=None) :
 
                     move_count += 1
                     if not index < recursion_info_level:
-                        log.info('move %d/64@%d(%d/%d)' % (move_count, index, permutation_count, permutations_count))
+                        log.info('move %d@%d(%d/%d)' % (move_count, index, permutation_count, permutations_count))
                     log.debug('\n' + str(controller.board))
                     # TODO trigger event time.sleep(DELAY)
 
