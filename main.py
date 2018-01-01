@@ -81,6 +81,8 @@ def try_all_moves(index: int=None) :
         solutions.append(str(controller.board))
         print('SOLUTION')
         print(solutions[-1])
+        print('all')
+        print(solutions)
 
     # …and end of depth is not reached
     else:
