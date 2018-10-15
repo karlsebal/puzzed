@@ -72,8 +72,8 @@ def try_all_moves(index: int=None) :
     if index == None:
         try_all_moves(len(permutations) - 1)
 
-    # if index is defined already…
-    # …and the end of depth is reached,
+    # if index is defined already
+    # and the end of depth is reached,
     # we have a solution
     elif index == -1:
         
@@ -82,45 +82,48 @@ def try_all_moves(index: int=None) :
         print('SOLUTION')
         print(solutions[-1])
 
-    # …and end of depth is not reached
+    # if not we are somewhere in the search tree
     else:
-        # for every tile in the specific permutation
+        # for every tile in the specific permutation…
         for tile in permutations[index]:
             permutation_count += 1
             move_count = 0
+
+            # feedback
             if not index < recursion_info_level:
                 log.info('permutation %d/%d@%d' % (permutation_count, permutations_count, index))
 
             try:
-                # we try to put that tile on board…
+                # …we try to put that tile on board…
                 log.debug('put %r' % tile)  
                 idx = controller.put(tile)
                 log.debug('%r is index %d' % (tile, idx))
 
-
+                # feedback
                 move_count += 1
                 if not index < recursion_info_level:
                     log.info('move %d@%d(%d/%d)' % (move_count, index, permutation_count, permutations_count))
                     log.info('\n' + str(controller.board))
                 # TODO trigger event time.sleep(DELAY)
 
-                # …call the next instance…
+                # …descend the tree…
                 log.debug('next recursion level…')
                 try_all_moves(index - 1)
 
                 while True:
-                    # …and move it around…
+                    # …and as we come back move it around…
                     log.debug('move %d' % idx)
                     coordinates = controller.move(idx)
                     log.debug('%d now on %r' % (idx, coordinates))
 
+                    # feedback
                     move_count += 1
                     if not index < recursion_info_level:
                         log.info('move %d@%d(%d/%d)' % (move_count, index, permutation_count, permutations_count))
                         log.info('\n' + str(controller.board))
                     # TODO trigger event time.sleep(DELAY)
 
-                    # …while calling
+                    # …and descend
                     log.debug('next recursion level…')
                     try_all_moves(index -1)
 
