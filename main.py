@@ -81,6 +81,8 @@ def try_all_moves(index: int=None) :
         solutions.append(str(controller.board))
         print('SOLUTION')
         print(solutions[-1])
+        print('all')
+        print(solutions)
 
     # if not we are somewhere in the search tree
     else:
